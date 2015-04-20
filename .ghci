@@ -1,0 +1,2 @@
+:set -isrc:test:dist/build/autogen
+:set -fwarn-incomplete-patterns

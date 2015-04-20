@@ -2,6 +2,7 @@
 
 module System.Log.CEF.Extensions
   ( Extensions
+  , emptyExtensions
   , extensionsBuilder
   , customExtension
   -- ** Predefined Extensions
@@ -122,9 +123,12 @@ import qualified Data.Text.Encoding      as T
 newtype Extensions = Extensions { unExtensions :: Builder }
 
 instance Monoid Extensions where
-  mempty                                = Extensions mempty
+  mempty                                = emptyExtensions
   {-# INLINE mappend #-}
   Extensions e1 `mappend` Extensions e2 = Extensions (e1 <> " " <> e2)
+
+emptyExtensions :: Extensions
+emptyExtensions = mempty
 
 -- |
 -- >>> :set -XOverloadedStrings

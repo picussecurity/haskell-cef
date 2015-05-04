@@ -8,7 +8,7 @@ license-file:        LICENSE
 author:              Utku Demir
 maintainer:          utdemir@gmail.com
 category:            System
-build-type:          Simple
+build-type:          Custom
 cabal-version:       >=1.10
 
 library

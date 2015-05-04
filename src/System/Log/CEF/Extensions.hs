@@ -118,6 +118,8 @@ import           Data.List               (intersperse)
 import           Data.Monoid
 import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
+import           Data.Time.Clock
+import           Data.Time.Clock.POSIX
 --------------------------------------------------------------------------------
 
 newtype Extensions = Extensions { unExtensions :: Builder }
@@ -156,7 +158,10 @@ renderExtVal = T.encodeUtf8Builder . T.concatMap go
 type IPv6Address = T.Text
 type IPv4Address = T.Text
 type MACAddress  = T.Text
-type TimeStamp   = T.Text
+type TimeStamp   = UTCTime
+
+utcTimeBuilder :: UTCTime -> Builder
+utcTimeBuilder = intDec . fromInteger . round . (* 1000) . utcTimeToPOSIXSeconds
 
 -- Max: 63 Character
 deviceAction :: T.Text -> Extensions
@@ -219,8 +224,8 @@ destinationTranslatedPort = ext "deviceTranslatedPort" . intDec
 
 -- Max: 1023 Character for labels
 deviceCustomDate1, deviceCustomDate2 :: T.Text -> TimeStamp -> Extensions
-deviceCustomDate1 t a = customExtension "deviceCustomDate1Label" t <> customExtension "deviceCustomDate1" a
-deviceCustomDate2 t a = customExtension "deviceCustomDate2Label" t <> customExtension "deviceCustomDate2" a
+deviceCustomDate1 t a = customExtension "deviceCustomDate1Label" t <> ext "deviceCustomDate1" (utcTimeBuilder a)
+deviceCustomDate2 t a = customExtension "deviceCustomDate2Label" t <> ext "deviceCustomDate2" (utcTimeBuilder a)
 
 deviceDirectionInbound, deviceDirectionOutbound :: Extensions
 deviceDirectionInbound  = ext "deviceDirection" (intDec 0)
@@ -307,14 +312,14 @@ deviceProcessId :: T.Text -> Extensions
 deviceProcessId = customExtension "dvcpid"
 
 endTime :: TimeStamp -> Extensions
-endTime = customExtension "end"
+endTime = ext "end" . utcTimeBuilder
 
 -- Max: 40 Character
 externalId :: T.Text -> Extensions
 externalId = customExtension "externalId"
 
 fileCreateTime :: TimeStamp -> Extensions
-fileCreateTime = customExtension "fileCreateTime"
+fileCreateTime = ext "fileCreateTime" . utcTimeBuilder
 
 -- Max: 255 Character
 fileHash :: T.Text -> Extensions
@@ -325,7 +330,7 @@ fileId :: T.Text -> Extensions
 fileId = customExtension "fileId"
 
 fileModificationTime :: TimeStamp -> Extensions
-fileModificationTime = customExtension "fileModificationTime"
+fileModificationTime = ext "fileModificationTime" . utcTimeBuilder
 
 -- Max: 1023 Character
 filePath :: T.Text -> Extensions
@@ -354,7 +359,7 @@ message :: T.Text -> Extensions
 message = customExtension "msg"
 
 oldFileCreateTime :: TimeStamp -> Extensions
-oldFileCreateTime = customExtension "oldFileCreateTime"
+oldFileCreateTime = ext "oldFileCreateTime" . utcTimeBuilder
 
 -- Max: 255 Character
 oldFileHash :: T.Text -> Extensions
@@ -365,7 +370,7 @@ oldFileId :: T.Text -> Extensions
 oldFileId = customExtension "oldFileId"
 
 oldFileModificationTime :: TimeStamp -> Extensions
-oldFileModificationTime = customExtension "oldFileModificationTime"
+oldFileModificationTime = ext "oldFileModificationTime" . utcTimeBuilder
 
 -- Max: 1023 Character
 oldFileName :: T.Text -> Extensions
@@ -417,7 +422,7 @@ requestMethod :: T.Text -> Extensions
 requestMethod = customExtension "requestMethod"
 
 receiptTime :: TimeStamp -> Extensions
-receiptTime = customExtension "rt"
+receiptTime = ext "rt" . utcTimeBuilder
 
 -- Max: 1023 Character
 sourceHostName :: T.Text -> Extensions
@@ -462,7 +467,7 @@ sourceAddress :: IPv4Address -> Extensions
 sourceAddress = customExtension "src"
 
 startTime :: TimeStamp -> Extensions
-startTime = customExtension "start"
+startTime = ext "start" . utcTimeBuilder
 
 -- Max: 1023 Character
 sourceUserId :: T.Text -> Extensions

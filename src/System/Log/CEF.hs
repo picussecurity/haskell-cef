@@ -45,7 +45,7 @@ data CEFEvent
 -- >>> :set -XOverloadedStrings
 -- >>> let exampleEvent = CEFEvent "Acme Corp" "Acmetorazor" "2.1" "cool" "MyNameIsCool" 10 (applicationProtocol "PUT")
 -- >>> toLazyByteString $ log exampleEvent
--- "CEF:0|Acme Corp|Acmetorazor|2.1|MyNameIsCool|10|app=PUT"
+-- "CEF:0|Acme Corp|Acmetorazor|2.1|MyNameIsCool|10|app=PUT\n"
 log :: CEFEvent -> Builder
 log CEFEvent{..} = mconcat (intersperse sep fields) <> "\n"
   where sep = "|"

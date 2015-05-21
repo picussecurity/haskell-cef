@@ -47,7 +47,7 @@ data CEFEvent
 -- >>> toLazyByteString $ log exampleEvent
 -- "CEF:0|Acme Corp|Acmetorazor|2.1|MyNameIsCool|10|app=PUT"
 log :: CEFEvent -> Builder
-log CEFEvent{..} = mconcat . intersperse sep $ fields
+log CEFEvent{..} = mconcat (intersperse sep fields) <> "\n"
   where sep = "|"
         fields = [ "CEF:0"
                  , renderHeader deviceVendor

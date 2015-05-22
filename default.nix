@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "cef";
-  version = "0.1.0.0";
+  version = "0.1.1";
   src = ./.;
   buildDepends = [ base bytestring text time ];
   testDepends = [ base directory doctest filepath ];

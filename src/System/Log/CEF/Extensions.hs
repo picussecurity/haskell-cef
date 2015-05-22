@@ -113,8 +113,6 @@ module System.Log.CEF.Extensions
 
 --------------------------------------------------------------------------------
 import           Data.ByteString.Builder
-import           Data.Function
-import           Data.List               (intersperse)
 import           Data.Monoid
 import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T

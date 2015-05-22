@@ -128,7 +128,7 @@ instance Monoid Extensions where
   Extensions e1 `mappend` Extensions e2 = Extensions (e1 <> " " <> e2)
 
 emptyExtensions :: Extensions
-emptyExtensions = mempty
+emptyExtensions = Extensions mempty
 
 -- |
 -- >>> :set -XOverloadedStrings

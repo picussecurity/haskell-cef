@@ -12,6 +12,8 @@ module System.Log.CEF
   , log
   -- * Extensions
   , module System.Log.CEF.Extensions
+  -- * Re-exports
+  , (<>)
   ) where
 
 --------------------------------------------------------------------------------

@@ -5,7 +5,7 @@ let pkg = haskellngPackages.callPackage
              }:
              mkDerivation {
                pname = "cef";
-               version = "0.1.1";
+               version = "0.1.2";
                src = ./.;
                buildDepends = [ base bytestring text ];
                testDepends = [ base directory doctest filepath ];

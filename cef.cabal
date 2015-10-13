@@ -1,5 +1,5 @@
 name:                cef
-version:             0.1.2
+version:             0.1.3
 synopsis:            CEF log format
 description:         This library is used to produce CEF log lines
 homepage:            http://github.com/picussecurity/haskell-cef.git

@@ -113,6 +113,7 @@ module System.Log.CEF.Extensions
 
 --------------------------------------------------------------------------------
 import           Data.ByteString.Builder
+import           Data.Function           (on)
 import           Data.Monoid
 import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
@@ -120,22 +121,26 @@ import           Data.Time.Clock
 import           Data.Time.Clock.POSIX
 --------------------------------------------------------------------------------
 
-newtype Extensions = Extensions { unExtensions :: Builder }
+data Extensions = Extensions { unExtensions :: Builder }
+                | NoExtension
 
 instance Monoid Extensions where
   mempty                                = emptyExtensions
   {-# INLINE mappend #-}
-  Extensions e1 `mappend` Extensions e2 = Extensions (e1 <> " " <> e2)
+  mappend NoExtension b                 = b
+  mappend a NoExtension                 = a
+  mappend (Extensions a) (Extensions b) = Extensions $ a <> " " <> b
 
 emptyExtensions :: Extensions
-emptyExtensions = Extensions mempty
+emptyExtensions = NoExtension
 
 -- |
 -- >>> :set -XOverloadedStrings
 -- >>> toLazyByteString $ extensionsBuilder (applicationProtocol "PUT" <> deviceCustomIPv6Address1 "localnet" "::1")
 -- "app=PUT c6a1Label=localnet c6a1=::1"
 extensionsBuilder :: Extensions -> Builder
-extensionsBuilder = unExtensions
+extensionsBuilder (Extensions b) = b
+extensionsBuilder NoExtension    = mempty
 
 {-# INLINE ext #-}
 ext :: T.Text -> Builder -> Extensions

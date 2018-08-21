@@ -1,12 +1,12 @@
 name:                cef
-version:             0.1.5
+version:             0.2
 synopsis:            CEF log format
 description:         This library is used to produce CEF log lines
 homepage:            http://github.com/picussecurity/haskell-cef.git
 license:             BSD3
 license-file:        LICENSE
 author:              Picus Security
-maintainer:          utdemir@picussecurity.com
+maintainer:          aycan@picussecurity.com
 category:            System
 build-type:          Custom
 cabal-version:       >=1.10

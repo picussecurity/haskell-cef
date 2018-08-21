@@ -118,17 +118,21 @@ import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
 import           Data.Time.Clock
 import           Data.Time.Clock.POSIX
+import qualified Data.Semigroup          as Semi
 --------------------------------------------------------------------------------
 
 data Extensions = Extensions { unExtensions :: Builder }
                 | NoExtension
 
+instance Semi.Semigroup Extensions where
+  Extensions a <> Extensions b = Extensions $ a <> " " <> b
+  NoExtension  <> b            = b
+  a            <> NoExtension  = a
+
 instance Monoid Extensions where
   mempty                                = emptyExtensions
   {-# INLINE mappend #-}
-  mappend NoExtension b                 = b
-  mappend a NoExtension                 = a
-  mappend (Extensions a) (Extensions b) = Extensions $ a <> " " <> b
+  mappend                               = (Semi.<>)
 
 emptyExtensions :: Extensions
 emptyExtensions = NoExtension

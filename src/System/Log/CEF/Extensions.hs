@@ -118,7 +118,7 @@ import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
 import           Data.Time.Clock
 import           Data.Time.Clock.POSIX
-import qualified Data.Semigroup          as Semi
+import           Data.Semigroup          as Semi
 --------------------------------------------------------------------------------
 
 data Extensions = Extensions { unExtensions :: Builder }

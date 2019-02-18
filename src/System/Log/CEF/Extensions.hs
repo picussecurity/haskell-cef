@@ -113,18 +113,18 @@ module System.Log.CEF.Extensions
 
 --------------------------------------------------------------------------------
 import           Data.ByteString.Builder
-import           Data.Monoid
+import           Data.Monoid             (Monoid, mempty)
 import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
 import           Data.Time.Clock
 import           Data.Time.Clock.POSIX
-import           Data.Semigroup          as Semi
+import           Data.Semigroup          (Semigroup, (<>))
 --------------------------------------------------------------------------------
 
 data Extensions = Extensions { unExtensions :: Builder }
                 | NoExtension
 
-instance Semi.Semigroup Extensions where
+instance Semigroup Extensions where
   Extensions a <> Extensions b = Extensions $ a <> " " <> b
   NoExtension  <> b            = b
   a            <> NoExtension  = a
@@ -132,7 +132,7 @@ instance Semi.Semigroup Extensions where
 instance Monoid Extensions where
   mempty                                = emptyExtensions
   {-# INLINE mappend #-}
-  mappend                               = (Semi.<>)
+  mappend                               = (<>)
 
 emptyExtensions :: Extensions
 emptyExtensions = NoExtension
